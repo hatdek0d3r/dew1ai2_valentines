@@ -199,6 +199,33 @@
       0%, 100% { opacity: 0.05; }
       50% { opacity: 0.08; }
     }
+    
+    /* Floating Video Player */
+    .video-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 1000;
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+    
+    .video-player video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    @media (max-width: 768px) {
+      .video-player {
+        width: 200px;
+        bottom: 10px;
+        right: 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -238,8 +265,32 @@
       I love you so much! ❤️
     </div>
   </div>
+  
+  <!-- Floating Video Player -->
+  <div class="video-player">
+    <video id="bgVideo" autoplay loop playsinline>
+      <source src="GWI.mp4" type="video/mp4">
+    </video>
+  </div>
 
   <script>
+    // Enable video with sound
+    const bgVideo = document.getElementById('bgVideo');
+    bgVideo.volume = 0.3; // Set volume to 30% so it's not too loud
+    
+    // Try to play with sound (some browsers require user interaction first)
+    bgVideo.play().catch(() => {
+      // If autoplay with sound fails, mute it and play
+      bgVideo.muted = true;
+      bgVideo.play();
+      
+      // Unmute on first user interaction
+      document.addEventListener('click', () => {
+        bgVideo.muted = false;
+        bgVideo.volume = 0.3;
+      }, { once: true });
+    });
+    
     const envelope = document.getElementById('envelope');
     const letterAnim = document.getElementById('letter-anim');
     const letterImg = document.getElementById('letter-img');
@@ -353,4 +404,3 @@
   </script>
 </body>
 </html>
-
