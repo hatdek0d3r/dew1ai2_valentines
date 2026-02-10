@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💌 Will You Be My Valentine?</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Dancing Script', cursive;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('pink-cat-bg.png');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+    
+    .container {
+      text-align: center;
+      position: relative;
+    }
+    
+    /* Envelope Stage */
+    .envelope-container {
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .envelope-container img {
+      width: 300px;
+      height: auto;
+      display: block;
+    }
+    
+    .envelope-container:hover img.closed {
+      display: none;
+    }
+    
+    .envelope-container:hover img.open {
+      display: block;
+    }
+    
+    .envelope-container img.open {
+      display: none;
+    }
+    
+    /* Letter Animation */
+    .letter-animation {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .letter-animation img {
+      max-width: 400px;
+      height: auto;
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
+    
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    
+    /* Question Card */
+    .question-card {
+      display: none;
+      background: white;
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    
+    .question-card h1 {
+      font-family: 'Pacifico', cursive;
+      color: #ff4d6d;
+      font-size: 36px;
+      margin-bottom: 40px;
+    }
+    
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      position: relative;
+    }
+    
+    button {
+      padding: 15px 40px;
+      font-size: 24px;
+      font-family: 'Dancing Script', cursive;
+      font-weight: bold;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    #yes-btn {
+      background: #ff4d6d;
+      color: white;
+    }
+    
+    #yes-btn:hover {
+      background: #ff2a52;
+      transform: scale(1.1);
+    }
+    
+    #no-btn {
+      background: #e0e0e0;
+      color: #666;
+      position: absolute;
+      transition: all 0.3s ease-out;
+    }
+    
+    /* Film Reel */
+    .film-reel {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1a1a1a;
+      z-index: 200;
+      overflow: hidden;
+    }
+    
+    .film-strip {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+    }
+    
+    .film-frame {
+      width: 100%;
+      margin-bottom: 20px;
+      border: 10px solid #333;
+      box-shadow: 0 0 30px rgba(255,255,255,0.1);
+      opacity: 0;
+      transform: translateY(-100vh);
+      filter: grayscale(100%);
+    }
+    
+    .film-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .final-message {
+      position: absolute;
+      bottom: -500px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Pacifico', cursive;
+      font-size: 48px;
+      color: #ff4d6d;
+      text-align: center;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+      opacity: 0;
+      width: 80%;
+    }
+    
+    /* Grain effect for film */
+    .film-reel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
+      pointer-events: none;
+      animation: grain 0.3s infinite;
+    }
+    
+    @keyframes grain {
+      0%, 100% { opacity: 0.05; }
+      50% { opacity: 0.08; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Envelope Stage -->
+    <div class="envelope-container" id="envelope">
+      <img src="pa1.png" class="closed" alt="Closed Envelope">
+      <img src="pa2.png" class="open" alt="Open Envelope">
+    </div>
+    
+    <!-- Letter Animation -->
+    <div class="letter-animation" id="letter-anim">
+      <img id="letter-img" src="aa1.png" alt="Letter">
+    </div>
+    
+    <!-- Question Card -->
+    <div class="question-card" id="question">
+      <h1>Will you accept my<br>Valentine's date invitation? 💕</h1>
+      <div class="buttons">
+        <button id="yes-btn">YES ❤️</button>
+        <button id="no-btn">NO</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Film Reel -->
+  <div class="film-reel" id="film">
+    <div class="film-strip" id="film-strip">
+      <div class="film-frame"><img src="ya1.png" alt="Memory 1"></div>
+      <div class="film-frame"><img src="ya2.png" alt="Memory 2"></div>
+      <div class="film-frame"><img src="ya3.png" alt="Memory 3"></div>
+      <div class="film-frame"><img src="ya4.png" alt="Memory 4"></div>
+      <div class="film-frame"><img src="ya5.png" alt="Memory 5"></div>
+    </div>
+    <div class="final-message" id="final-msg">
+      Thank you for being mine 💕<br>
+      I love you so much! ❤️
+    </div>
+  </div>
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    const letterAnim = document.getElementById('letter-anim');
+    const letterImg = document.getElementById('letter-img');
+    const question = document.getElementById('question');
+    const yesBtn = document.getElementById('yes-btn');
+    const noBtn = document.getElementById('no-btn');
+    const film = document.getElementById('film');
+    const filmStrip = document.getElementById('film-strip');
+    const finalMsg = document.getElementById('final-msg');
+    
+    const letterFrames = ['aa1.png', 'aa2.png', 'aa3.png', 'aa4.png'];
+    let currentFrame = 0;
+    
+    // Click envelope to start letter animation
+    envelope.addEventListener('click', () => {
+      envelope.style.display = 'none';
+      letterAnim.style.display = 'flex';
+      
+      // Animate through letter frames
+      const frameInterval = setInterval(() => {
+        currentFrame++;
+        if (currentFrame < letterFrames.length) {
+          letterImg.src = letterFrames[currentFrame];
+        } else {
+          clearInterval(frameInterval);
+          setTimeout(() => {
+            letterAnim.style.display = 'none';
+            question.style.display = 'block';
+          }, 800);
+        }
+      }, 600);
+    });
+    
+    // NO button slides away (impossible to click)
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+    
+    function moveNoButton() {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 100;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 100;
+      
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+      
+      noBtn.style.left = randomX + 'px';
+      noBtn.style.top = randomY + 'px';
+    }
+    
+    // YES button - show film reel
+    yesBtn.addEventListener('click', () => {
+      question.style.display = 'none';
+      film.style.display = 'block';
+      
+      const frames = filmStrip.querySelectorAll('.film-frame');
+      
+      // Drop photos one by one
+      frames.forEach((frame, index) => {
+        setTimeout(() => {
+          frame.style.animation = `dropDown 1.2s forwards ease-out`;
+          frame.style.animationDelay = '0s';
+          frame.style.opacity = '1';
+          frame.style.transform = 'translateY(0)';
+        }, index * 800);
+      });
+      
+      // Show final message
+      setTimeout(() => {
+        finalMsg.style.animation = 'slideUp 2s forwards ease-out';
+      }, frames.length * 800 + 1000);
+    });
+    
+    // Add animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes dropDown {
+        0% {
+          transform: translateY(-100vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(${window.innerHeight * 0.1}px);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes slideUp {
+        0% {
+          bottom: -500px;
+          opacity: 0;
+        }
+        100% {
+          bottom: 50px;
+          opacity: 1;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
